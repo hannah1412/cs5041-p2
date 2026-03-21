@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "author": "Karel Vesely",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard",
+      "id": "bb1",
+      "top": 131.4,
+      "left": -54.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-arduino-uno",
+      "id": "uno",
+      "top": 154.2,
+      "left": -768.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led-ring",
+      "id": "ring1",
+      "top": -248.96,
+      "left": -430.81,
+      "attrs": {
+        "pixels": "16"
+      }
+    },
+    {
+      "type": "wokwi-led-ring",
+      "id": "ring2",
+      "top": -623.36,
+      "left": 1.19,
+      "attrs": {
+        "pixels": "16"
+      }
+    },
+    {
+      "type": "wokwi-led-ring",
+      "id": "ring3",
+      "top": -95.36,
+      "left": 269.99,
+      "attrs": {
+        "pixels": "16"
+      }
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": -217.6,
+      "left": -613.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr3",
+      "top": -352,
+      "left": -8.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr4",
+      "top": -54.4,
+      "left": 413.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led-strip",
+      "id": "strip1",
+      "top": -407.1,
+      "left": -273.2,
+      "rotate": 90,
+      "attrs": {
+        "pixels": "8"
+      }
+    },
+    {
+      "type": "wokwi-led-strip",
+      "id": "strip2",
+      "top": -338.3,
+      "left": 207.6,
+      "rotate": 270,
+      "attrs": {
+        "pixels": "8"
+      }
+    },
+    {
+      "type": "wokwi-led-strip",
+      "id": "strip3",
+      "top": -65.1,
+      "left": -163.2,
+      "rotate": 180,
+      "attrs": {
+        "pixels": "8"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 65.9,
+      "left": -307.4,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot2",
+      "top": 56.3,
+      "left": -173,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [
+      "uno:GND.3",
+      "bb1:bn.1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "uno:5V",
+      "bb1:bp.1",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring1:GND",
+      "bb1:bn.2",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring1:VCC",
+      "bb1:bp.3",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring1:DIN",
+      "uno:6",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "bb1:bn.50",
+      "bb1:tn.50",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "bb1:bp.49",
+      "bb1:tp.49",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring2:GND",
+      "bb1:tn.16",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring2:VCC",
+      "bb1:tp.17",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring1:DOUT",
+      "ring2:DIN",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring3:GND",
+      "bb1:tn.29",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring3:VCC",
+      "bb1:tp.30",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ring2:DOUT",
+      "ring3:DIN",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "ldr1:VCC",
+      "bb1:bp.10",
+      "red",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr1:GND",
+      "bb1:bn.10",
+      "black",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr1:AO",
+      "uno:A0",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr3:VCC",
+      "bb1:bp.6",
+      "red",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr3:GND",
+      "bb1:bn.6",
+      "black",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr3:AO",
+      "uno:A1",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr4:VCC",
+      "bb1:tp.47",
+      "red",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr4:GND",
+      "bb1:tn.46",
+      "black",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "ldr4:AO",
+      "uno:A2",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "bb1:bn.5",
+      "strip1:VSS",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "strip1:VDD",
+      "bb1:bp.5",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "uno:5",
+      "strip1:DIN",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "strip1:DOUT",
+      "strip2:DIN",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "strip2:VSS",
+      "bb1:tn.25",
+      "green",
+      [
+        "v297.6",
+        "h76"
+      ]
+    ],
+    [
+      "strip2:VDD",
+      "bb1:tp.25",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "strip3:DIN",
+      "strip2:DOUT",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "strip3:VSS",
+      "bb1:tn.3",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "strip3:VDD",
+      "bb1:tp.2",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "pot1:SIG",
+      "uno:A3",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "pot1:VCC",
+      "bb1:tp.1",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "pot1:GND",
+      "bb1:tn.1",
+      "black",
+      [
+        "v19.2",
+        "h240"
+      ]
+    ],
+    [
+      "pot2:VCC",
+      "bb1:tp.4",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "pot2:GND",
+      "bb1:tn.4",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "pot2:SIG",
+      "uno:A4",
+      "green",
+      [
+        "v0"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}
