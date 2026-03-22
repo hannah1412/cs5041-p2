@@ -2,6 +2,12 @@
 #include <FastLED.h>
 #include <Arduino.h>
 
+struct WavePattern
+{
+    int freq;
+    CRGB color;
+};
+
 // heartbeat pattern
 struct RingAnimation
 {

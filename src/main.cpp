@@ -9,43 +9,41 @@
 
 // CRGB object for FastLED library
 
-CRGB strips[NUM_STRIPS * LEDS_PER_STRIP + 2];
-CRGB rings[NUM_RINGS * LEDS_PER_RING + 2];
+CRGB strips[NUM_STRIPS * LEDS_PER_STRIP];
+CRGB rings[NUM_RINGS * LEDS_PER_RING + (NUM_STRIPS * LEDS_PER_STRIP)];
 
 RingAnimation ring1;
 RingAnimation ring2;
 RingAnimation ring3;
 
-// treat as one long strip
-// CylonAnimation strip1;
+StripAnimation strip1;
+StripAnimation strip2;
+StripAnimation strip3;
 
 MushroomSensors sensors;
+float temperature = 0; // range from 0 to 40 C
+float moisture = 0;    // range from 0 to 100 %
 
 void setup()
 {
     Serial.begin(9600);
     // set up rings
-    FastLED.addLeds<WS2812, RINGS_LED_PIN, GRB>(rings, NUM_RINGS * LEDS_PER_RING + 2).setRgbw(RgbwDefault());
-
-    // set up strips
-    FastLED.addLeds<WS2812, STRIPS_LED_PIN, GRB>(strips, NUM_STRIPS * LEDS_PER_STRIP + 2).setRgbw(RgbwDefault());
+    FastLED.addLeds<WS2812, RINGS_LED_PIN, GRB>(rings, NUM_RINGS * LEDS_PER_RING + (NUM_STRIPS * LEDS_PER_STRIP)).setRgbw(RgbwDefault());
 
     // limit overall brightness
     // FastLED.setBrightness(150);
-    // strip1 = {0, 1, false, 20, 0, 500, CRGB::White};
+    strip1 = {false, 10, 0, 500, CRGB::White, 150, 0, LEDS_PER_STRIP, 48, 0};
+    strip2 = {false, 10, 0, 500, CRGB::White, 150, 0, LEDS_PER_STRIP, 56, 0};
+    strip3 = {true, 10, 0, 500, CRGB::White, 150, 0, LEDS_PER_STRIP, 64, 0};
 
-    ring1 = {20, 150, 5, LEDS_PER_RING, 0, CRGB::White};
-    ring2 = {20, 150, 5, LEDS_PER_RING, 16, CRGB::White};
-    ring3 = {20, 150, 5, LEDS_PER_RING, 32, CRGB::White};
+    ring1 = {20, 150, 10, LEDS_PER_RING, 0, CRGB::White};
+    ring2 = {20, 150, 10, LEDS_PER_RING, 16, CRGB::White};
+    ring3 = {20, 150, 10, LEDS_PER_RING, 32, CRGB::White};
 
     sensors = {false,
                false,
                false};
 }
-
-// sensor data from toggles
-float temperature = 0; // range from 0 to 40 C
-float moisture = 0;    // range from 0 to 100 %
 
 // animations for the mushroom rings
 void updateRings()
@@ -61,25 +59,26 @@ void updateRings()
 }
 
 // animations for the micellium paths (strips)
-// void updateStrips()
-// {
-//     // strips line up between m1 -> m2 -> <- m3;
-//     if (ring1.mushroomPresence && ring2.mushroomPresence && ring3.mushroomPresence)
-//     { // send pulse down strip 1
-//         cylon(strips, NUM_STRIPS * LEDS_PER_STRIP, &strip1);
-//     }
-// }
+void updateStrips()
+{
+    // strips line up between m1 -> m2 -> <- m3;
+    updateStripState(&strip1, &strip2, &strip3, sensors);
+
+    stripAnimation(rings, &strip1); // test on rings
+    stripAnimation(rings, &strip2);
+    stripAnimation(rings, &strip3);
+}
 
 void loop()
 {
 
-    EVERY_N_MILLISECONDS(10)
-    { // approx 100 FPS
+    EVERY_N_MILLISECONDS(20)
+    { // approx 50 FPS
         mushroomDetection(sensors);
         temperature = readTemperature();
         moisture = readMoisture();
 
-        // updateStrips();
+        updateStrips();
         updateRings();
 
         FastLED.show();

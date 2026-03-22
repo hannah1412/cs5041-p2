@@ -9,7 +9,7 @@ float readTemperature()
     float t_reading = analogRead(TEMP_POT_PIN);
     static float t_avg = t_reading;
     t_avg = alpha * t_reading + (1 - alpha) * t_reading;
-    return map(t_avg, 0, 1023, 40, 0);
+    return map(t_avg, 0, 1023, TEMP_MAX, TEMP_MIN);
 }
 
 float readMoisture()
@@ -17,7 +17,7 @@ float readMoisture()
     float m_reading = analogRead(MOISTURE_POT_PIN);
     static float m_avg = m_reading;
     m_avg = alpha * m_reading + (1 - alpha) * m_reading;
-    return map(m_avg, 0, 1023, 100, 0);
+    return map(m_avg, 0, 1023, MOISTURE_MAX, MOISTURE_MIN);
 }
 
 // function that reads data from LDR sensors
