@@ -10,7 +10,7 @@
 // CRGB object for FastLED library
 
 CRGB strips[NUM_STRIPS * LEDS_PER_STRIP];
-CRGB rings[NUM_RINGS * LEDS_PER_RING + (NUM_STRIPS * LEDS_PER_STRIP)];
+CRGB rings[NUM_RINGS * LEDS_PER_RING];
 
 RingAnimation ring1;
 RingAnimation ring2;
@@ -22,19 +22,20 @@ StripAnimation strip3;
 
 MushroomSensors sensors;
 float temperature = 0; // range from 0 to 40 C
-float moisture = 0;    // range from 0 to 100 %
+float moisture = 0;    // range from 50 to 100 %
 
 void setup()
 {
     Serial.begin(9600);
     // set up rings
-    FastLED.addLeds<WS2812, RINGS_LED_PIN, GRB>(rings, NUM_RINGS * LEDS_PER_RING + (NUM_STRIPS * LEDS_PER_STRIP)).setRgbw(RgbwDefault());
+    FastLED.addLeds<WS2812, RINGS_LED_PIN, GRB>(rings, NUM_RINGS * LEDS_PER_RING)).setRgbw(RgbwDefault());
+    FastLED.addLeds<WS2812, STRIPS_LED_PIN, GRB>(strips, NUM_STRIPS * LEDS_PER_STRIP)).setRgbw(RgbwDefault());
 
     // limit overall brightness
     // FastLED.setBrightness(150);
-    strip1 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 48, 0};
-    strip2 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 56, 0};
-    strip3 = {true, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 64, 0};
+    strip1 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 0, 0};
+    strip2 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 8, 0};
+    strip3 = {true, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 16, 0};
 
     ring1 = {20, 150, 10, LEDS_PER_RING, 0, CRGB::White};
     ring2 = {20, 150, 10, LEDS_PER_RING, 16, CRGB::White};
