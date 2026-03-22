@@ -45,19 +45,36 @@ void updateStripState(StripAnimation *s1, StripAnimation *s2, StripAnimation *s3
 
 void stripAnimation(CRGB *leds, StripAnimation *s)
 {
+    // turn off LEDs out of nLedActivated range 
+    fill_solid(&leds[s->offset], s -> nLeds, CRGB::Black);
+    if(s -> nLedsActivated  <=0) return ;
+
+
+    // 1 full pass every 2 secs
     uint8_t t = beat8(30);
-    fadeToBlackBy(&leds[s->offset], s->nLeds, s->fadeRate);
-    for (int i = 0; i < s->nLeds; i++)
-    {
-        // allows for directions to be changed
-        int idx = s->reversed ? (s->nLeds - 1 - i) : i;
-        int phase = s->reversed ? -40 : 40;
-        if (i < s->nLedsActivated)
-        {
-            uint8_t pos = t - i * phase;
-            uint8_t val = cubicwave8(pos);
-            CRGB c = s->color;
-            leds[s->offset + idx] = blend(c, CRGB::Blue, val);
+    int nActive = s -> nLedsActivated;
+    const int TRAIL_LEN = 4;
+
+    float headF = (t/255.0f)*nActive;
+    int head = (int)headF;
+    
+    for(int trail =0; trail < TRAIL_LEN; trail++){
+        int ledPos = head - trail;
+
+        // wrap s.t. the leds at the end of each strip stays visible
+        if(ledPos < 0){
+            ledPos += nActive;
         }
+        if(ledPos >= nActive){
+            continue;
+        }
+
+        //  set up brightness level -> distinguish the different broightness level between begin VS end of each light strip
+        uint8_t brightness = (uint8_t)map(trail, 0, TRAIL_LEN -1,s -> maxBrightness, s-> minBrightness);
+        CRGB c = s-> color;
+        c.nscale8(brightness);
+        // if strip runs in reverse -> flip index
+        int idx = s -> reversed ? (s-> nLeds -1 -ledPos): ledPos;
+        leds[s-> offset +idx] =c;
     }
 }

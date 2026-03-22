@@ -17,6 +17,9 @@ struct RingAnimation
     int nLeds;
     int offset;
     CRGB color;
+
+    // health 
+    int nLedsActivated;
 };
 
 void ringAnimation(CRGB *leds, RingAnimation *state);

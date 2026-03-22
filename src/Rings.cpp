@@ -19,12 +19,22 @@ const WavePattern REMOVED = {20, CRGB::Red};
 
 void ringAnimation(CRGB *leds, RingAnimation *r)
 {
-    uint8_t brightness = beatsin8(r->beatsPerMinute, r->minBrightness, r->maxBrightness);
-    CRGB dimmed = r->color;
-    dimmed.nscale8(brightness);
-    fill_solid(&leds[r->offset], r->nLeds, dimmed);
+    if(r -> nLedsActivated <0){
+        uint8_t brightness = beatsin8(r->beatsPerMinute, r->minBrightness, r->maxBrightness);
+        CRGB dimmed = r->color;
+        dimmed.nscale8(brightness);
+        fill_solid(&leds[r->offset], r->nLeds, dimmed);
+    }else{
+        fill_solid(&leds[r->offset], r->nLeds, CRGB::Black);
+        if(r -> nLedsActivated > 0){
+            CRGB c = r -> color;
+            c.nscale8(r->maxBrightness);
+            fill_solid(&leds[r->offset], r->nLedsActivated, c);
+        }
+    }
 }
 
+// Blending colors 
 void apply(RingAnimation *ring, WavePattern w)
 {
     ring->color = blend(ring->color, w.color, 10);
@@ -36,6 +46,29 @@ WavePattern combine(WavePattern w1, WavePattern w2)
     return WavePattern{
         (w1.freq + w2.freq) / 2,
         blend(w1.color, w2.color, 128)};
+}
+
+// -----------------------cal health score - combination of both TEMP + MOIST -----------------
+static int calHealth(float temp, float moist){
+    int tempScore;
+    int moistScore;
+    if(temp >= 13 && temp < 24){
+        tempScore =50;  //optimal 
+    }else if(temp >= 0 && temp <13){
+        tempScore = (int)map((long) temp, 0, 13, 0, 40);    //cold
+    }else{
+        tempScore = (int)map((long) constrain(temp, 24, 30), 24, 30, 40, 0);    //too hot 
+    }
+
+    if(moist >= 70 && moist < 90){
+        moistScore =50;  //optimal 
+    }else if(moist >= 0 && moist <13){
+        moistScore = (int)map((long) moist, 50, 70, 0, 40);    //dry
+    }else{
+        moistScore = (int)map((long) constrain(moist, 90, 100), 90, 100, 40, 0);    //wet
+    }
+
+    return tempScore + moistScore;
 }
 
 WavePattern getWavePattern(bool mush, float temperature, float moisture)
@@ -75,8 +108,21 @@ WavePattern getWavePattern(bool mush, float temperature, float moisture)
     return combine(temp, moist);
 }
 
+
+
 void updateRingState(RingAnimation *ring, bool mush, float temperature, float moisture)
 {
-    WavePattern w = getWavePattern(mush, temperature, moisture);
-    apply(ring, w);
+    // no Mush 
+    if(!mush){
+        apply(ring,REMOVED);
+        ring -> nLedsActivated = -1;
+    }else{
+        WavePattern w = getWavePattern(mush, temperature, moisture);
+        apply(ring, w);
+
+        int health = calHealth(temperature, moisture);
+        // map health dynamically 
+        ring -> nLedsActivated = (int)map(health, 0, 100, 1, ring-> nLeds);
+    }
+    
 }

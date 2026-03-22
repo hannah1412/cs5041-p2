@@ -28,8 +28,8 @@ void setup()
 {
     Serial.begin(9600);
     // set up rings
-    FastLED.addLeds<WS2812, RINGS_LED_PIN, GRB>(rings, NUM_RINGS * LEDS_PER_RING)).setRgbw(RgbwDefault());
-    FastLED.addLeds<WS2812, STRIPS_LED_PIN, GRB>(strips, NUM_STRIPS * LEDS_PER_STRIP)).setRgbw(RgbwDefault());
+    FastLED.addLeds<WS2812, RINGS_LED_PIN, GRB>(rings, (NUM_RINGS * LEDS_PER_RING)).setRgbw(RgbwDefault());
+    FastLED.addLeds<WS2812, STRIPS_LED_PIN, GRB>(strips, (NUM_STRIPS * LEDS_PER_STRIP)).setRgbw(RgbwDefault());
 
     // limit overall brightness
     // FastLED.setBrightness(150);
@@ -41,9 +41,7 @@ void setup()
     ring2 = {20, 150, 10, LEDS_PER_RING, 16, CRGB::White};
     ring3 = {20, 150, 10, LEDS_PER_RING, 32, CRGB::White};
 
-    sensors = {false,
-               false,
-               false};
+    sensors = {false,false,false};
 }
 
 // animations for the mushroom rings
