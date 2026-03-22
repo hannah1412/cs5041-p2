@@ -32,9 +32,9 @@ void setup()
 
     // limit overall brightness
     // FastLED.setBrightness(150);
-    strip1 = {false, 10, 0, 500, CRGB::White, 150, 0, LEDS_PER_STRIP, 48, 0};
-    strip2 = {false, 10, 0, 500, CRGB::White, 150, 0, LEDS_PER_STRIP, 56, 0};
-    strip3 = {true, 10, 0, 500, CRGB::White, 150, 0, LEDS_PER_STRIP, 64, 0};
+    strip1 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 48, 0};
+    strip2 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 56, 0};
+    strip3 = {true, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 64, 0};
 
     ring1 = {20, 150, 10, LEDS_PER_RING, 0, CRGB::White};
     ring2 = {20, 150, 10, LEDS_PER_RING, 16, CRGB::White};
@@ -90,5 +90,11 @@ void loop()
         Serial.println(temperature);
         Serial.print("Moisture: ");
         Serial.println(moisture);
+        Serial.print("Mush1: ");
+        Serial.println(sensors.m1);
+        Serial.print("Mush2: ");
+        Serial.println(sensors.m2);
+        Serial.print("Mush3: ");
+        Serial.println(sensors.m3);
     }
 }
