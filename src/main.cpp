@@ -65,9 +65,9 @@ void updateStrips()
     // strips line up between m1 -> m2 -> <- m3;
     updateStripState(&strip1, &strip2, &strip3, sensors);
 
-    stripAnimation(rings, &strip1); // test on rings
-    stripAnimation(rings, &strip2);
-    stripAnimation(rings, &strip3);
+    stripAnimation(strips, &strip1); // test on rings
+    stripAnimation(strips, &strip2);
+    stripAnimation(strips, &strip3);
 }
 
 void loop()
