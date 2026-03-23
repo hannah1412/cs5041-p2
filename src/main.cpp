@@ -33,9 +33,9 @@ void setup()
 
     // limit overall brightness
     // FastLED.setBrightness(150);
-    strip1 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 0, 0};
-    strip2 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 8, 0};
-    strip3 = {true, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 16, 0};
+    strip1 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 0, 0, 30};
+    strip2 = {false, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 8, 0, 30};
+    strip3 = {true, 10, 0, 300, CRGB::White, 150, 0, LEDS_PER_STRIP, 16, 0, 30};
 
     ring1 = {20, 150, 10, LEDS_PER_RING, 0, CRGB::White};
     ring2 = {20, 150, 10, LEDS_PER_RING, 16, CRGB::White};
@@ -45,12 +45,12 @@ void setup()
 }
 
 // animations for the mushroom rings
-void updateRings()
+void updateRings(int vitality)
 {
     // update color based on presence of mushrooms
-    updateRingState(&ring1, sensors.m1, temperature, moisture);
-    updateRingState(&ring2, sensors.m2, temperature, moisture);
-    updateRingState(&ring3, sensors.m3, temperature, moisture);
+    updateRingState(&ring1, sensors.m1, temperature, moisture, vitality);
+    updateRingState(&ring2, sensors.m2, temperature, moisture, vitality);
+    updateRingState(&ring3, sensors.m3, temperature, moisture, vitality);
 
     ringAnimation(rings, &ring1);
     ringAnimation(rings, &ring2);
@@ -58,10 +58,10 @@ void updateRings()
 }
 
 // animations for the micellium paths (strips)
-void updateStrips()
+void updateStrips(int vitality)
 {
     // strips line up between m1 -> m2 -> <- m3;
-    updateStripState(&strip1, &strip2, &strip3, sensors);
+    updateStripState(&strip1, &strip2, &strip3, sensors, vitality);
 
     stripAnimation(strips, &strip1); // test on rings
     stripAnimation(strips, &strip2);
@@ -77,8 +77,11 @@ void loop()
         temperature = readTemperature();
         moisture = readMoisture();
 
-        updateStrips();
-        updateRings();
+        // nMush presence -> vitality of network 
+        int vitality = sensors.m1 + sensors.m2 + sensors.m3;
+
+        updateStrips(vitality);
+        updateRings(vitality);
 
         FastLED.show();
     }

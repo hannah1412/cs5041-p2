@@ -4,8 +4,21 @@
 #include "Sensors.h"
 #include "Config.h"
 
-void updateStripState(StripAnimation *s1, StripAnimation *s2, StripAnimation *s3, MushroomSensors mush)
+void updateStripState(StripAnimation *s1, StripAnimation *s2, StripAnimation *s3, MushroomSensors mush, int vitality)
 {
+    const uint8_t v_bright[4] = {10, 50, 70, 255};
+    const uint8_t v_BPM[4] = {8, 16, 24, 40};
+    uint8_t bright = v_bright[constrain(vitality, 0, 3)];
+    uint8_t bpm = v_bright[constrain(vitality, 0, 3)];
+
+    s1-> maxBrightness = bright; 
+    s1-> pulseBpm = bpm;
+    s2-> maxBrightness = bright; 
+    s2-> pulseBpm = bpm;
+    s3-> maxBrightness = bright; 
+    s3-> pulseBpm = bpm;
+
+
     int currTime = millis();
 
     // perform an update at regular intervals

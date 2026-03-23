@@ -24,4 +24,4 @@ struct RingAnimation
 
 void ringAnimation(CRGB *leds, RingAnimation *state);
 
-void updateRingState(RingAnimation *ring, bool mush, float temperature, float moisture);
+void updateRingState(RingAnimation *ring, bool mush, float temperature, float moisture, int vitality);

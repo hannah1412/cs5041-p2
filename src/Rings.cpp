@@ -110,8 +110,12 @@ WavePattern getWavePattern(bool mush, float temperature, float moisture)
 
 
 
-void updateRingState(RingAnimation *ring, bool mush, float temperature, float moisture)
+void updateRingState(RingAnimation *ring, bool mush, float temperature, float moisture, int vitality)
 {
+    // max birghtness level when network strongest === 3 mushs present
+    const uint8_t v_birghtness_level[4] = {5, 40, 60, 255};
+    ring-> maxBrightness = v_birghtness_level[constrain(vitality, 0, 3)];
+    ring -> minBrightness = ring -> maxBrightness/8;
     // no Mush 
     if(!mush){
         apply(ring,REMOVED);
